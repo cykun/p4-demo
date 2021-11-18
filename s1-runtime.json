@@ -1,0 +1,51 @@
+{
+  "target": "bmv2",
+  "p4info": "build/main.p4.p4info.txt",
+  "bmv2_json": "build/main.json",
+  "table_entries": [
+    {
+      "table": "IngressImpl.mac_lookup",
+      "match": {
+        "hdr.ethernet.dstAddr": "FF:FF:FF:FF:FF:FF"
+      },
+      "action_name": "IngressImpl.multicast",
+      "action_params": {
+      }
+    },
+    {
+      "table": "IngressImpl.mac_lookup",
+      "match": {
+        "hdr.ethernet.dstAddr": "08:00:00:00:01:01"
+      },
+      "action_name": "IngressImpl.mac_forward",
+      "action_params": {
+        "port": 1
+      }
+    },
+    {
+      "table": "IngressImpl.mac_lookup",
+      "match": {
+        "hdr.ethernet.dstAddr": "08:00:00:00:02:02"
+      },
+      "action_name": "IngressImpl.mac_forward",
+      "action_params": {
+        "port": 2
+      }
+    }
+  ],
+  "multicast_group_entries" : [
+    {
+      "multicast_group_id" : 1,
+      "replicas" : [
+        {
+          "egress_port" : 1,
+          "instance" : 1
+        },
+        {
+          "egress_port" : 2,
+          "instance" : 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+    "hosts": {
+        "h1": {
+            "ip": "10.0.0.1/8",
+            "mac": "08:00:00:00:01:01",
+            "commands": []
+        },
+        "h2": {
+            "ip": "10.0.0.2/8",
+            "mac": "08:00:00:00:02:02",
+            "commands": []
+        }
+    },
+    "switches": {
+        "s1": {
+            "runtime_json": "s1-runtime.json"
+        },
+        "s2": {
+            "runtime_json": "s2-runtime.json"
+        },
+        "s3": {
+            "runtime_json": "s3-runtime.json"
+        }
+    },
+    "links": [
+        [
+            "h1",
+            "s1-p1"
+        ],
+        [
+            "s1-p2",
+            "s2-p1"
+        ],
+        [
+            "s2-p2",
+            "s3-p1"
+        ],
+        [
+            "s3-p2",
+            "h2"
+        ]
+    ],
+    "multicast_group_entries": [
+        {
+            "multicast_group_id": 1,
+            "replicas": [
+                {
+                    "egress_port": 1,
+                    "instance": 1
+                },
+                {
+                    "egress_port": 2,
+                    "instance": 1
+                },
+                {
+                    "egress_port": 3,
+                    "instance": 1
+                },
+                {
+                    "egress_port": 4,
+                    "instance": 1
+                }
+            ]
+        }
+    ]
+}
