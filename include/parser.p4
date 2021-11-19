@@ -15,7 +15,6 @@ parser ParserImpl(packet_in packet,
 
 control DeparserImpl(packet_out packet, in headers hdr) {
     apply {
-        packet.emit(hdr.packet_in);
         packet.emit(hdr.ethernet);
     }
 }

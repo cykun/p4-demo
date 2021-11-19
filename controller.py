@@ -1,42 +1,53 @@
-#!/usr/bin/env python3
-import argparse
-import grpc
-import os
-import sys
-from time import sleep
+# #!/usr/bin/env python3
+# import argparse
+# import grpc
+# import os
+# import sys
+# from time import sleep
 
-import utils.p4runtime_lib.bmv2 as bmv2
-from utils.p4runtime_lib.error_utils import printGrpcError
-from utils.p4runtime_lib.switch import ShutdownAllSwitchConnections
-import utils.p4runtime_lib.helper as helper
+# import utils.p4runtime_lib.bmv2 as bmv2
+# from utils.p4runtime_lib.error_utils import printGrpcError
+# from utils.p4runtime_lib.switch import ShutdownAllSwitchConnections
+# import utils.p4runtime_lib.helper as helper
 
-from scapy.all import sniff
+# from scapy.all import sniff
+
 
 # def writeRules(p4info_helper, ingress_sw):
 
 #     table_entry = p4info_helper.buildTableEntry(
-#         table_name="IngressImpl.forwarding",
+#         table_name="IngressImpl.mac_lookup",
 #         match_fields={
-#             "hdr.ethernet.dstAddr": "08:00:00:00:01:01"
+#             "hdr.ethernet.dstAddr": "FF:FF:FF:FF:FF:FF"
 #         },
-#         action_name="IngressImpl.l2_forward",
-#         action_params={
-#             "port": 1,
-#         })
+#         action_name="IngressImpl.multicast",
+#         action_params={})
 #     ingress_sw.WriteTableEntry(table_entry)
 #     print("Installed ingress tunnel rule on %s" % ingress_sw.name)
 
 #     table_entry = p4info_helper.buildTableEntry(
-#         table_name="IngressImpl.forwarding",
+#         table_name="IngressImpl.mac_lookup",
+#         match_fields={
+#             "hdr.ethernet.dstAddr": "08:00:00:00:01:01"
+#         },
+#         action_name="IngressImpl.mac_forward",
+#         action_params={
+#             "port": 1,
+#         })
+#     ingress_sw.WriteTableEntry(table_entry)
+#     print("Installed ingress rule on %s" % ingress_sw.name)
+
+#     table_entry = p4info_helper.buildTableEntry(
+#         table_name="IngressImpl.mac_lookup",
 #         match_fields={
 #             "hdr.ethernet.dstAddr": "08:00:00:00:02:02"
 #         },
-#         action_name="IngressImpl.l2_forward",
+#         action_name="IngressImpl.mac_forward",
 #         action_params={
 #             "port": 2,
 #         })
 #     ingress_sw.WriteTableEntry(table_entry)
-#     print("Installed ingress tunnel rule on %s" % ingress_sw.name)
+#     print("Installed ingress rule on %s" % ingress_sw.name)
 
 
 # def readTableRules(p4info_helper, sw):
@@ -58,16 +69,6 @@ from scapy.all import sniff
 #                     action_name, p.param_id), end=' ')
 #                 print('%r' % p.value, end=' ')
 #             print()
-
-
-# def printCounter(p4info_helper, sw, counter_name, index):
-#     for response in sw.ReadCounters(p4info_helper.get_counters_id(counter_name), index):
-#         for entity in response.entities:
-#             counter = entity.counter_entry
-#             print("%s %s %d: %d packets (%d bytes)" % (
-#                 sw.name, counter_name, index,
-#                 counter.data.packet_count, counter.data.byte_count
-#             ))
 
 
 # def main(p4info_file_path, bmv2_file_path):
@@ -94,48 +95,48 @@ from scapy.all import sniff
 #         s3.MasterArbitrationUpdate()
 
 #         writeRules(p4info_helper, s1)
+#         readTableRules(p4info_helper, s1)
 #         writeRules(p4info_helper, s2)
+#         readTableRules(p4info_helper, s2)
 #         writeRules(p4info_helper, s3)
-#         # while True:
-#         #     sleep(2)
-#         #     print('\n----- Reading tunnel counters -----')
-#         #     printCounter(p4info_helper, s1, "IngressImpl.egressCounter", 0)
-#         #     printCounter(p4info_helper, s2, "IngressImpl.egressCounter", 0)
-#         #     printCounter(p4info_helper, s3, "IngressImpl.egressCounter", 0)
+#         readTableRules(p4info_helper, s3)
 #     except KeyboardInterrupt:
 #         print(" Shutting down.")
 #     except grpc.RpcError as e:
 #         printGrpcError(e)
-def print(packet):
-    packet.show()
 
 
-def main():
-    sniff(
-        iface='s1-eth0',
-        prn=print)
-    print(1)
+# if __name__ == '__main__':
+#     parser = argparse.ArgumentParser(description='P4Runtime Controller')
+#     parser.add          default='./build/main.p4.p4info.txt')
+#     parser.add_argument('--bmv2-json', help='BMv2 JSON file from p4c',
+#                         type=str, action="store", required=False,
+#                         default='./build/main.json')
+#     args = parser.parse_args()
 
+#     if not os.path.exists(args.p4info):
+#         parser.print_help()
+#         print("\np4info file not found: %s\nHave you run 'make'?" % args.p4info)
+#         parser.exit(1)
+#     if not os.path.exists(args.bmv2_json):
+#         parser.print_help()
+#         print("\nBMv2 JSON file not found: %s\nHave you run 'make'?" %
+#               args.bmv2_json)
+#         parser.exit(1)
+#     main(args.p4info, args.bmv2_json)
+#           default='./build/main.p4.p4info.txt')
+#     parser.add_argument('--bmv2-json', help='BMv2 JSON file from p4c',
+#                         type=str, action="store", required=False,
+#                         default='./build/main.json')
+#     args = parser.parse_args()
 
-if __name__ == '__main__':
-    pass
-    # parser = argparse.ArgumentParser(description='P4Runtime Controller')
-    # parser.add_argument('--p4info', help='p4info proto in text format from p4c',
-    #                     type=str, action="store", required=False,
-    #                     default='./build/advanced_tunnel.p4.p4info.txt')
-    # parser.add_argument('--bmv2-json', help='BMv2 JSON file from p4c',
-    #                     type=str, action="store", required=False,
-    #                     default='./build/advanced_tunnel.json')
-    # args = parser.parse_args()
-
-    # if not os.path.exists(args.p4info):
-    #     parser.print_help()
-    #     print("\np4info file not found: %s\nHave you run 'make'?" % args.p4info)
-    #     parser.exit(1)
-    # if not os.path.exists(args.bmv2_json):
-    #     parser.print_help()
-    #     print("\nBMv2 JSON file not found: %s\nHave you run 'make'?" %
-    #           args.bmv2_json)
-    #     parser.exit(1)
-    # main(args.p4info, args.bmv2_json)
-    main()
+#     if not os.path.exists(args.p4info):
+#         parser.print_help()
+#         print("\np4info file not found: %s\nHave you run 'make'?" % args.p4info)
+#         parser.exit(1)
+#     if not os.path.exists(args.bmv2_json):
+#         parser.print_help()
+#         print("\nBMv2 JSON file not found: %s\nHave you run 'make'?" %
+#               args.bmv2_json)
+#         parser.exit(1)
+#     main(args.p4info, args.bmv2_json)

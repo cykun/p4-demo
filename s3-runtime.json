@@ -9,8 +9,7 @@
         "hdr.ethernet.dstAddr": "FF:FF:FF:FF:FF:FF"
       },
       "action_name": "IngressImpl.multicast",
-      "action_params": {
-      }
+      "action_params": {}
     },
     {
       "table": "IngressImpl.mac_lookup",
@@ -33,17 +32,17 @@
       }
     }
   ],
-  "multicast_group_entries" : [
+  "multicast_group_entries": [
     {
-      "multicast_group_id" : 1,
-      "replicas" : [
+      "multicast_group_id": 1,
+      "replicas": [
         {
-          "egress_port" : 1,
-          "instance" : 1
+          "egress_port": 1,
+          "instance": 1
         },
         {
-          "egress_port" : 2,
-          "instance" : 1
+          "egress_port": 2,
+          "instance": 1
         }
       ]
     }

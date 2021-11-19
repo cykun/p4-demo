@@ -39,28 +39,5 @@
             "s3-p2",
             "h2"
         ]
-    ],
-    "multicast_group_entries": [
-        {
-            "multicast_group_id": 1,
-            "replicas": [
-                {
-                    "egress_port": 1,
-                    "instance": 1
-                },
-                {
-                    "egress_port": 2,
-                    "instance": 1
-                },
-                {
-                    "egress_port": 3,
-                    "instance": 1
-                },
-                {
-                    "egress_port": 4,
-                    "instance": 1
-                }
-            ]
-        }
     ]
 }
