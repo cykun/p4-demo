@@ -1,6 +1,7 @@
 typedef bit<9>  egressSpec_t;
 typedef bit<48> macAddr_t;
 
+// Ethernet 下一层数据报头类型
 enum bit<16> EthTypes {
     IPv4 = 0x800,
     ARP = 0x806,
